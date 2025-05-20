@@ -16,16 +16,24 @@ const NoteForm = ({ onSubmit, initialNote, onCancel, isEditing }: NoteFormProps)
   const [content, setContent] = useState("")
   const [tags, setTags] = useState("")
   const [errors, setErrors] = useState<{ title?: string; content?: string }>({})
+  const [isHighlighted, setIsHighlighted] = useState(false)
 
   useEffect(() => {
     if (initialNote) {
       setTitle(initialNote.title)
       setContent(initialNote.content)
       setTags(initialNote.tags ? initialNote.tags.join(", ") : "")
+
+      // Activar el efecto de resaltado cuando se carga una nota para editar
+      if (isEditing) {
+        setIsHighlighted(true)
+        const timer = setTimeout(() => setIsHighlighted(false), 1000)
+        return () => clearTimeout(timer)
+      }
     } else {
       resetForm()
     }
-  }, [initialNote])
+  }, [initialNote, isEditing])
 
   const resetForm = () => {
     setTitle("")
@@ -80,7 +88,11 @@ const NoteForm = ({ onSubmit, initialNote, onCancel, isEditing }: NoteFormProps)
   }
 
   return (
-    <div className="bg-gradient-to-br from-teal-50 to-teal-100 dark:from-slate-800 dark:to-slate-700 p-6 rounded-lg shadow-md border border-teal-200 dark:border-slate-600">
+    <div
+      className={`bg-gradient-to-br from-teal-50 to-teal-100 dark:from-slate-800 dark:to-slate-700 p-6 rounded-lg shadow-md border border-teal-200 dark:border-slate-600 transition-all duration-300 ${
+        isHighlighted ? "animate-highlight" : ""
+      }`}
+    >
       <h2 className="text-2xl font-semibold mb-6 text-teal-800 dark:text-teal-300">
         {isEditing ? "Edit Note" : "Create New Note"}
       </h2>

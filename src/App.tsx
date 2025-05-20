@@ -20,6 +20,7 @@ function App() {
   const [error, setError] = useState<string | null>(null)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isViewTransitioning, setIsViewTransitioning] = useState(false)
+  const [formKey, setFormKey] = useState(0) // Clave para forzar re-renderizado del formulario
 
   // Estado para el modal de confirmación de eliminación
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
@@ -181,6 +182,8 @@ function App() {
     }
 
     setEditingNote(note)
+    // Incrementar la clave para forzar el re-renderizado del formulario y activar la animación
+    setFormKey((prevKey) => prevKey + 1)
   }
 
   const handleCancelEdit = () => {
@@ -507,7 +510,9 @@ function App() {
               </div>
 
               <div className="lg:sticky lg:top-6 h-fit">
+                {/* Usar key para forzar re-renderizado y activar la animación */}
                 <NoteForm
+                  key={formKey}
                   onSubmit={editingNote ? handleUpdateNote : handleCreateNote}
                   initialNote={editingNote}
                   onCancel={handleCancelEdit}
