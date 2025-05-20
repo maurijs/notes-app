@@ -1,5 +1,7 @@
 "use client"
 
+import { useState, useEffect } from "react"
+
 interface TagFilterProps {
   allTags: string[]
   selectedTags: string[]
@@ -7,6 +9,17 @@ interface TagFilterProps {
 }
 
 const TagFilter = ({ allTags, selectedTags, onTagSelect }: TagFilterProps) => {
+  const [isFiltering, setIsFiltering] = useState(false)
+
+  // Efecto para animar cuando cambian las etiquetas seleccionadas
+  useEffect(() => {
+    if (selectedTags.length > 0) {
+      setIsFiltering(true)
+      const timer = setTimeout(() => setIsFiltering(false), 300)
+      return () => clearTimeout(timer)
+    }
+  }, [selectedTags])
+
   if (allTags.length === 0) {
     return null
   }
@@ -19,9 +32,9 @@ const TagFilter = ({ allTags, selectedTags, onTagSelect }: TagFilterProps) => {
           <button
             key={tag}
             onClick={() => onTagSelect(tag)}
-            className={`px-3 py-1.5 rounded-full text-sm transition-all duration-200 ${
+            className={`px-3 py-1.5 rounded-full text-sm transition-all duration-300 ${
               selectedTags.includes(tag)
-                ? "bg-teal-500 text-white"
+                ? "bg-teal-500 text-white animate-pulse-once"
                 : "bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
             }`}
           >

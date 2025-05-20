@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import { useEffect, useState } from "react"
 
 interface DeleteConfirmationModalProps {
   isOpen: boolean
@@ -10,11 +11,40 @@ interface DeleteConfirmationModalProps {
 }
 
 const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({ isOpen, onClose, onConfirm, noteTitle }) => {
+  const [isExiting, setIsExiting] = useState(false)
+
+  // Resetear el estado de salida cuando se abre el modal
+  useEffect(() => {
+    if (isOpen) {
+      setIsExiting(false)
+    }
+  }, [isOpen])
+
+  // Manejar el cierre con animación
+  const handleClose = () => {
+    setIsExiting(true)
+    setTimeout(onClose, 200)
+  }
+
+  // Manejar la confirmación con animación
+  const handleConfirm = () => {
+    setIsExiting(true)
+    setTimeout(onConfirm, 200)
+  }
+
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 animate-fade-in">
-      <div className="bg-white dark:bg-slate-800 rounded-lg shadow-xl p-6 max-w-md w-full mx-4 border border-slate-200 dark:border-slate-700">
+    <div
+      className={`fixed inset-0 bg-black/50 flex items-center justify-center z-50 transition-opacity duration-200 ${
+        isExiting ? "opacity-0" : "opacity-100"
+      }`}
+    >
+      <div
+        className={`bg-white dark:bg-slate-800 rounded-lg shadow-xl p-6 max-w-md w-full mx-4 border border-slate-200 dark:border-slate-700 transition-all duration-200 ${
+          isExiting ? "opacity-0 transform translate-y-4" : "animate-fade-in"
+        }`}
+      >
         <div className="text-center mb-5">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/30 text-red-500 mb-4">
             <svg
@@ -45,7 +75,7 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({ isOpe
 
         <div className="flex flex-col sm:flex-row-reverse gap-3 mt-6">
           <button
-            onClick={onConfirm}
+            onClick={handleConfirm}
             className="w-full sm:w-auto px-5 py-2.5 bg-red-500 hover:bg-red-600 text-white rounded-md transition-colors duration-200 font-medium flex items-center justify-center"
           >
             <svg
@@ -67,7 +97,7 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({ isOpe
             Eliminar nota
           </button>
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="w-full sm:w-auto px-5 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-800 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600 rounded-md transition-colors duration-200 font-medium"
           >
             Cancelar

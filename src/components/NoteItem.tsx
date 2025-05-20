@@ -2,6 +2,7 @@
 
 import { formatDate } from "../utils"
 import type { Note } from "../types"
+import { useState, useEffect } from "react"
 
 interface NoteItemProps {
   note: Note
@@ -9,6 +10,7 @@ interface NoteItemProps {
   onDelete: (id: number, title: string) => void
   onArchive: (note: Note) => void
   isArchived: boolean
+  isBeingEdited?: boolean
 }
 
 // Función para generar un color de fondo basado en el ID de la nota
@@ -23,7 +25,27 @@ const getNoteColor = (id: number): string => {
   return colors[id % colors.length]
 }
 
-const NoteItem = ({ note, onEdit, onDelete, onArchive, isArchived }: NoteItemProps) => {
+const NoteItem = ({ note, onEdit, onDelete, onArchive, isArchived, isBeingEdited = false }: NoteItemProps) => {
+  const [isNew, setIsNew] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [isHighlighted, setIsHighlighted] = useState(false)
+
+  // Efecto para notas nuevas
+  useEffect(() => {
+    setIsNew(true)
+    const timer = setTimeout(() => setIsNew(false), 500)
+    return () => clearTimeout(timer)
+  }, [])
+
+  // Efecto para resaltar cuando se está editando
+  useEffect(() => {
+    if (isBeingEdited) {
+      setIsHighlighted(true)
+      const timer = setTimeout(() => setIsHighlighted(false), 1000)
+      return () => clearTimeout(timer)
+    }
+  }, [isBeingEdited])
+
   // Manejar posibles errores de fecha
   const displayDate = () => {
     try {
@@ -36,9 +58,20 @@ const NoteItem = ({ note, onEdit, onDelete, onArchive, isArchived }: NoteItemPro
 
   const colorClass = getNoteColor(note.id)
 
+  // Función para manejar la eliminación con animación
+  const handleDelete = () => {
+    setIsDeleting(true)
+    // Esperar a que termine la animación antes de eliminar realmente
+    setTimeout(() => {
+      onDelete(note.id, note.title)
+    }, 200)
+  }
+
   return (
     <div
-      className={`bg-gradient-to-br ${colorClass} p-5 rounded-lg shadow-md border transition-all duration-200 hover:shadow-lg`}
+      className={`note-item bg-gradient-to-br ${colorClass} p-5 rounded-lg shadow-md border transition-all duration-300 hover:shadow-lg ${
+        isNew ? "animate-slide-in" : ""
+      } ${isDeleting ? "animate-fade-out" : ""} ${isHighlighted ? "animate-highlight" : ""}`}
     >
       <div className="flex justify-between items-start mb-3">
         <h3 className="text-xl font-semibold text-slate-800 dark:text-white">{note.title}</h3>
@@ -68,7 +101,7 @@ const NoteItem = ({ note, onEdit, onDelete, onArchive, isArchived }: NoteItemPro
           Edit
         </button>
         <button
-          onClick={() => onDelete(note.id, note.title)}
+          onClick={handleDelete}
           className="bg-red-500 hover:bg-red-600 text-white px-3.5 py-1.5 rounded-md text-sm font-medium transition-colors duration-200"
         >
           Delete

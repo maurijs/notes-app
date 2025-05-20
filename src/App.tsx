@@ -19,6 +19,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isViewTransitioning, setIsViewTransitioning] = useState(false)
 
   // Estado para el modal de confirmación de eliminación
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
@@ -94,7 +95,7 @@ function App() {
       // Verificar si es una nota completa (con id) o una nueva nota
       if ("id" in updatedNote) {
         // Es una nota existente, omitir la fecha al actualizar
-        //const { creationDate, ...noteData } = updatedNote
+        const { creationDate, ...noteData } = updatedNote
         await updateNote(updatedNote as Note)
 
         // Si la nota cambia su estado de archivado, recargar las notas
@@ -119,6 +120,17 @@ function App() {
       }
       console.error(err)
     }
+  }
+
+  // Función para cambiar entre vistas con transición
+  const handleViewChange = (archived: boolean) => {
+    if (showArchived === archived) return
+
+    setIsViewTransitioning(true)
+    setTimeout(() => {
+      setShowArchived(archived)
+      setIsViewTransitioning(false)
+    }, 200)
   }
 
   // Función para abrir el modal de confirmación
@@ -442,7 +454,7 @@ function App() {
                     ? "bg-slate-200 text-slate-700 hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
                     : "bg-teal-500 text-white hover:bg-teal-600 shadow-sm dark:bg-teal-600 dark:hover:bg-teal-700"
                 }`}
-                onClick={() => setShowArchived(false)}
+                onClick={() => handleViewChange(false)}
               >
                 Active Notes
               </button>
@@ -452,7 +464,7 @@ function App() {
                     ? "bg-teal-500 text-white hover:bg-teal-600 shadow-sm dark:bg-teal-600 dark:hover:bg-teal-700"
                     : "bg-slate-200 text-slate-700 hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
                 }`}
-                onClick={() => setShowArchived(true)}
+                onClick={() => handleViewChange(true)}
               >
                 Archived Notes
               </button>
@@ -471,24 +483,27 @@ function App() {
                   <TagFilter allTags={allTags} selectedTags={selectedTags} onTagSelect={handleTagSelect} />
                 </div>
 
-                {isLoading ? (
-                  <div className="flex justify-center items-center h-64">
-                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-500"></div>
-                  </div>
-                ) : (
-                  <div>
-                    <h2 className="text-xl font-serif font-bold mb-4 text-slate-800 dark:text-white">
-                      {showArchived ? "Archived Notes" : "Active Notes"}
-                    </h2>
-                    <NoteList
-                      notes={filteredNotes}
-                      onEdit={handleEditNote}
-                      onDelete={confirmDeleteNote}
-                      onArchive={handleArchiveNote}
-                      isArchiveView={showArchived}
-                    />
-                  </div>
-                )}
+                <div className={`transition-opacity duration-200 ${isViewTransitioning ? "opacity-0" : "opacity-100"}`}>
+                  {isLoading ? (
+                    <div className="flex justify-center items-center h-64">
+                      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-500"></div>
+                    </div>
+                  ) : (
+                    <div>
+                      <h2 className="text-xl font-serif font-bold mb-4 text-slate-800 dark:text-white">
+                        {showArchived ? "Archived Notes" : "Active Notes"}
+                      </h2>
+                      <NoteList
+                        notes={filteredNotes}
+                        onEdit={handleEditNote}
+                        onDelete={confirmDeleteNote}
+                        onArchive={handleArchiveNote}
+                        isArchiveView={showArchived}
+                        editingNoteId={editingNote?.id}
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className="lg:sticky lg:top-6 h-fit">
