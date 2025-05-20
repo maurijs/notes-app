@@ -9,7 +9,7 @@ interface TagFilterProps {
 }
 
 const TagFilter = ({ allTags, selectedTags, onTagSelect }: TagFilterProps) => {
-  const [isFiltering, setIsFiltering] = useState(false)
+  const [, setIsFiltering] = useState(false)
 
   // Efecto para animar cuando cambian las etiquetas seleccionadas
   useEffect(() => {

@@ -95,7 +95,7 @@ function App() {
       // Verificar si es una nota completa (con id) o una nueva nota
       if ("id" in updatedNote) {
         // Es una nota existente, omitir la fecha al actualizar
-        const { creationDate, ...noteData } = updatedNote
+        //const { creationDate, ...noteData } = updatedNote
         await updateNote(updatedNote as Note)
 
         // Si la nota cambia su estado de archivado, recargar las notas
