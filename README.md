@@ -2,7 +2,7 @@
 
 Notes Manager es una Single Page Application (SPA), una aplicación web moderna y elegante para la gestión de notas personales, construida con React + Vite y diseñada para ofrecer una experiencia de usuario fluida e intuitiva.
 
--- Backend project: https://github.com/maurijs/notes_app_backend
+-- Descripcion más detallada del Backend en: https://github.com/maurijs/notes_app_backend
 
 ## 🌟 Características Principales
 
@@ -51,45 +51,10 @@ Notes Manager es una Single Page Application (SPA), una aplicación web moderna 
 - **Custom Hooks** - Lógica reutilizable para gestión de estado
 - **Responsive Design** - Adaptable a cualquier tamaño de pantalla
 
-## 🚀 Instalación y Configuración
 ### Prerrequisitos
 - Node.js (versión 16 o superior)
 - npm
 - Backend .NET configurado y ejecutándose
-
-### Pasos de Instalación
-1. **Clonar el repositorio**
-
-```shellscript
-git clone [URL_DEL_REPOSITORIO]
-cd notes-manager
-```
-
-
-2. **Instalar dependencias**
-
-```shellscript
-npm install
-```
-
-3. **Configurar variables de entorno**
-
-```shellscript
-# Crear archivo .env en la raíz del proyecto
-VITE_API_BASE_URL=http://localhost:5000/api
-```
-4. **Ejecutar en modo desarrollo**
-
-```shellscript
-npm run dev
-```
-
-
-5. **Construir para producción**
-
-```shellscript
-npm run build
-```
 
 ## 📱 Uso de la Aplicación
 
