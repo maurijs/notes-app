@@ -1,54 +1,125 @@
-# React + TypeScript + Vite
+# Notes Manager
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Notes Manager es una Single Page Application (SPA), una aplicación web moderna y elegante para la gestión de notas personales, construida con React + Vite y diseñada para ofrecer una experiencia de usuario fluida e intuitiva.
 
-Currently, two official plugins are available:
+-- Backend project: https://github.com/maurijs/notes_app_backend
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🌟 Características Principales
 
-## Expanding the ESLint configuration
+### ✨ Gestión Completa de Notas
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Crear y Editar**: Crea notas con títulos descriptivos y contenido detallado
+- **Organización Inteligente**: Sistema de etiquetas (tags) personalizables para categorizar tus notas
+- **Archivo Flexible**: Archiva notas para mantener tu espacio de trabajo limpio sin perder información importante
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### 🎨 Experiencia de Usuario Superior
+
+- **Interfaz Moderna**: Diseño limpio con gradientes suaves y colores distintivos para cada nota, y con efectos de transiciones suaves y efectos visuales
+  que mejoran la interacción
+- **Responsive Design**: Optimizado para dispositivos móviles, tablets y escritorio
+
+### 🔐 Seguridad y Autenticación
+
+- **Sistema de Usuarios**: Registro e inicio de sesión seguro
+- **Protección de Datos**: Cada usuario solo puede acceder a sus propias notas
+- **Sesiones Persistentes**: Mantén tu sesión activa de forma segura
+- **Validación Robusta**: Validación tanto en frontend como backend
+
+### 🏷️ Organización Avanzada
+
+- **Filtrado por Etiquetas**: Encuentra rápidamente las notas que necesitas
+- **Vistas Separadas**: Alterna fácilmente entre notas activas y archivadas
+- **Búsqueda Visual**: Colores únicos para cada nota facilitan la identificación rápida
+- **Gestión de Estado**: Transiciones suaves entre diferentes vistas y estados
+
+## 🛠️ Tecnologías Utilizadas
+
+### Frontend
+- **React 18** 
+- **TypeScript**
+- **Vite**
+- **Tailwind CSS**
+  
+### Backend Integration  
+- **RESTful API** - Comunicación con backend .NET
+- **Fetch API** - Manejo de peticiones HTTP
+- **JWT Authentication**
+
+### Características Técnicas
+
+- **Component Architecture** - Arquitectura modular y reutilizable
+- **Custom Hooks** - Lógica reutilizable para gestión de estado
+- **Responsive Design** - Adaptable a cualquier tamaño de pantalla
+
+## 🚀 Instalación y Configuración
+### Prerrequisitos
+- Node.js (versión 16 o superior)
+- npm
+- Backend .NET configurado y ejecutándose
+
+### Pasos de Instalación
+1. **Clonar el repositorio**
+
+```shellscript
+git clone [URL_DEL_REPOSITORIO]
+cd notes-manager
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+2. **Instalar dependencias**
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```shellscript
+npm install
 ```
+
+3. **Configurar variables de entorno**
+
+```shellscript
+# Crear archivo .env en la raíz del proyecto
+VITE_API_BASE_URL=http://localhost:5000/api
+```
+4. **Ejecutar en modo desarrollo**
+
+```shellscript
+npm run dev
+```
+
+
+5. **Construir para producción**
+
+```shellscript
+npm run build
+```
+
+## 📱 Uso de la Aplicación
+
+### Primeros Pasos
+
+1. **Registro**: Crea una cuenta nueva con un nombre de usuario único
+2. **Inicio de Sesión**: Accede con tus credenciales
+3. **Crear Nota**: Usa el formulario lateral para crear tu primera nota
+4. **Organizar**: Añade etiquetas para categorizar tus notas
+
+### Funcionalidades Avanzadas
+
+- **Edición Rápida**: Haz clic en "Edit" para modificar cualquier nota
+- **Filtrado**: Usa las etiquetas para filtrar notas específicas
+- **Archivo**: Mantén tu espacio limpio archivando notas completadas
+- **Gestión Visual**: Los colores únicos te ayudan a identificar notas rápidamente
+
+
+## 🎯 Características Destacadas
+
+### Experiencia Visual
+
+- **Colores Dinámicos**: Cada nota tiene un color único basado en su ID
+- **Animaciones Inteligentes**: Efectos de entrada, salida y resaltado
+- **Transiciones Suaves**: Cambios de vista fluidos y naturales
+- **Feedback Inmediato**: Respuesta visual instantánea a las acciones del usuario
+
+### Usabilidad
+
+- **Interfaz Intuitiva**: Diseño que no requiere curva de aprendizaje
+- **Navegación Clara**: Botones y controles fácilmente identificables
+- **Estados Visuales**: Indicadores claros del estado actual de la aplicación
+- **Manejo de Errores**: Mensajes informativos y recuperación elegante de errores
