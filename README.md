@@ -2,6 +2,7 @@
 
 Notes Manager es una Single Page Application (SPA), una aplicación web moderna y elegante para la gestión de notas personales, construida con React + Vite y diseñada para ofrecer una experiencia de usuario fluida e intuitiva.
 
+Deployed version: https://notes-app-pi0t.onrender.com
 -- Descripcion más detallada del Backend en: https://github.com/maurijs/notes_app_backend
 
 ## 🌟 Características Principales
